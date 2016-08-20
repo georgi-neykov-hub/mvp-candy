@@ -33,7 +33,8 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:24.2.0'
     testCompile 'junit:junit:4.12'
-    compile ('com.github.georgi-neykov-hub.mvp-candy:core:1.0.1') {changing = true;}
-    compile ('com.github.georgi-neykov-hub.mvp-candy:rx:1.0.1'){changing = true;}
-    compile ('com.github.georgi-neykov-hub.mvp-candy:support-v4:1.0.1'){changing = true;}
+    compile project(':core')
+    compile project(':rx')
+    compile project(':support-v4')
+
 }
