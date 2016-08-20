@@ -1,5 +1,29 @@
 apply plugin: 'com.android.library'
 
+ext {
+    bintrayRepo = 'mvp-candy'
+    bintrayName = 'support-v4'
+
+    publishedGroupId = 'com.neykov.mvp-candy'
+    libraryName = 'mvp-candy'
+    artifact = 'support-v4'
+
+    libraryDescription = ''
+
+    siteUrl = 'https://github.com/georgi-neykov-hub/mvp-candy'
+    gitUrl = 'https://github.com/georgi-neykov-hub/mvp-candy/issues.git'
+
+    libraryVersion = '1.0.3'
+
+    developerId = 'georgi-neykov-hub'
+    developerName = 'Georgi Neykov'
+    developerEmail = 'georgi.neykov@gmail.com'
+
+    licenseName = 'The MIT License (MIT)'
+    licenseUrl = 'https://github.com/georgi-neykov-hub/mvp-candy/blob/master/LICENSE'
+    allLicenses = ["MIT"]
+}
+
 android {
     compileSdkVersion 24
     buildToolsVersion "24.0.1"
@@ -31,6 +55,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
 }
 
-apply plugin: 'com.github.dcendents.android-maven'
-
-group='com.github.georgi-neykov-hub'
+apply from: '../bintray.gradle'
+apply from: '../maven-pom.gradle'
