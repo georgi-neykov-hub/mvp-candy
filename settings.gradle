@@ -1,1 +1,1 @@
-include ':presenter-extensions', ':support-v4', ':rx'
+include ':core', ':support-v4', ':rx'
