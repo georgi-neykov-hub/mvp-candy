@@ -29,3 +29,7 @@ dependencies {
     compile 'com.android.support:support-annotations:24.2.0'
     testCompile 'junit:junit:4.12'
 }
+
+apply plugin: 'com.github.dcendents.android-maven'
+
+group='com.github.georgi-neykov-hub'
