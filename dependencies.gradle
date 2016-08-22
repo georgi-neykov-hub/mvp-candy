@@ -1,0 +1,34 @@
+ext {
+    compileSdkVersion = 24
+    buildToolsVersion = '24.0.1'
+    minSdkVersion = 9
+    targetSdkVersion = 24
+    sourceCompatibilityVersion = JavaVersion.VERSION_1_7
+    targetCompatibilityVersion = JavaVersion.VERSION_1_7
+    supportLibrariesVersion = '24.2.0'
+
+    dep = [
+            androidPlugin        : "com.android.tools.build:gradle:2.2.0-beta2",
+            supportFragments  : "com.android.support:support-fragment:$supportLibrariesVersion",
+            supportAnnotations   : "com.android.support:support-annotations:$supportLibrariesVersion",
+            rxJava   : "io.reactivex:rxjava:1.0.14"
+    ]
+
+    isCi = "true".equals(System.getenv('CI'))
+
+    versionName = "1.0.1"
+    versionCode = 2;
+    libraryName = "mvp-candy"
+    groupId = "com.neykov.mvp-candy"
+    description = "A simple library offering MVP support for Android applications"
+    siteUrl = 'https://github.com/georgi-neykov-hub/mvp-candy'
+    vcsUrl = 'https://github.com/georgi-neykov-hub/mvp-candy'
+
+    developerId = 'georgi-neykov-hub'
+    developerName = 'Georgi Neykov'
+    developerEmail = 'georgi.neykov@gmail.com'
+
+    licenseName = 'The MIT License (MIT)'
+    licenseUrl = 'https://github.com/georgi-neykov-hub/mvp-candy/blob/master/LICENSE'
+    allLicenses = ["MIT"]
+}

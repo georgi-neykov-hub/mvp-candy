@@ -1,58 +1,30 @@
 apply plugin: 'com.android.library'
 
 ext {
-    bintrayRepo = 'mvp-candy'
-    bintrayName = 'support-v4'
-
-    publishedGroupId = 'com.neykov.mvp-candy'
-    libraryName = 'mvp-candy'
+    bintrayPackage = 'support-v4'
     artifact = 'support-v4'
-
-    libraryDescription = ''
-
-    siteUrl = 'https://github.com/georgi-neykov-hub/mvp-candy'
-    gitUrl = 'https://github.com/georgi-neykov-hub/mvp-candy/issues.git'
-
-    libraryVersion = '1.0.0'
-
-    developerId = 'georgi-neykov-hub'
-    developerName = 'Georgi Neykov'
-    developerEmail = 'georgi.neykov@gmail.com'
-
-    licenseName = 'The MIT License (MIT)'
-    licenseUrl = 'https://github.com/georgi-neykov-hub/mvp-candy/blob/master/LICENSE'
-    allLicenses = ["MIT"]
 }
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.1"
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
-        minSdkVersion 9
-        targetSdkVersion 24
-        versionCode 1
-        versionName "1.0.1"
-
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode rootProject.ext.versionCode
+        versionName rootProject.ext.versionName
     }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
+
+    compileOptions {
+        sourceCompatibility rootProject.ext.sourceCompatibilityVersion
+        targetCompatibility rootProject.ext.targetCompatibilityVersion
     }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':core')
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    compile 'com.android.support:support-fragment:24.2.0'
-    testCompile 'junit:junit:4.12'
+    compile dep.supportFragments
 }
 
 apply from: '../bintray.gradle'
