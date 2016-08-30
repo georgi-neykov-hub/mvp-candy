@@ -1,22 +1,23 @@
 package com.neykov.mvp;
 
+import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.app.Fragment;
 import android.support.annotation.RequiresApi;
 
+@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
 public class PresenterStorageFragment extends Fragment{
 
-    static final String TAG = PresenterStorageFragment.class.getSimpleName();
+    public static final String TAG = PresenterStorageFragment.class.getSimpleName();
 
-    private DefaultPresenterStorage presenterStorage;
+    private final DefaultPresenterStorage presenterStorage = new DefaultPresenterStorage();;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenterStorage = new DefaultPresenterStorage();
         setRetainInstance(true);
     }
 

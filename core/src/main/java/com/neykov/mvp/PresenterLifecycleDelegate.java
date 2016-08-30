@@ -1,19 +1,20 @@
 package com.neykov.mvp;
 
 import android.annotation.TargetApi;
-import android.app.FragmentTransaction;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.app.FragmentManager;
+import android.support.annotation.RequiresApi;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+@RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
+@SuppressWarnings("unused")
 public class PresenterLifecycleDelegate<P extends Presenter> {
     private static final String KEY_PRESENTER_STATE = "presenter";
     private static final String KEY_PRESENTER_ID = "presenter_id";
 
     private PresenterStorage presenterStorage;
-    private boolean usingTemporaryStorage;
 
     private final PresenterFactory<P> presenterFactory;
     @Nullable
@@ -79,24 +80,24 @@ public class PresenterLifecycleDelegate<P extends Presenter> {
         }
     }
 
-    public void onDestroy(boolean destroy) {
-        if (presenter != null && destroy) {
+    public void onDestroy(boolean destroyPresenter) {
+        if (presenter != null && destroyPresenter) {
             presenter.destroy();
             presenter = null;
         }
     }
 
-    public void onCreate(@Nullable Bundle savedState, FragmentManager supportFragmentManager){
+    public void onCreate(@Nullable Bundle savedState, FragmentManager fragmentManager) {
         PresenterStorageFragment fragment = (PresenterStorageFragment)
-                supportFragmentManager.findFragmentByTag(PresenterStorageFragment.TAG);
-        if(fragment == null){
-                // We still haven't passed though onStart().
-                presenterStorage = new DefaultPresenterStorage();
-                usingTemporaryStorage = true;
-        }else {
-            presenterStorage = fragment.getPresenterStorage();
-            usingTemporaryStorage = false;
+                fragmentManager.findFragmentByTag(PresenterStorageFragment.TAG);
+        if (fragment == null) {
+            fragment = new PresenterStorageFragment();
+            fragmentManager.beginTransaction()
+                    .add(fragment, PresenterStorageFragment.TAG)
+                    .disallowAddToBackStack()
+                    .commit();
         }
+        presenterStorage = fragment.getPresenterStorage();
 
         if (savedState != null) {
             if (presenter != null)
@@ -104,38 +105,4 @@ public class PresenterLifecycleDelegate<P extends Presenter> {
             this.bundle = savedState.getBundle(KEY_PRESENTER_STATE);
         }
     }
-
-    public void onStart(FragmentManager manager){
-        PresenterStorageFragment fragment = (PresenterStorageFragment)
-                manager.findFragmentByTag(PresenterStorageFragment.TAG);
-        if(fragment == null){
-            fragment = new PresenterStorageFragment();
-            FragmentTransaction transaction = manager.beginTransaction()
-                    .add(fragment, PresenterStorageFragment.TAG)
-                    .disallowAddToBackStack();
-            if(Build.VERSION.SDK_INT < Build.VERSION_CODES.N){
-                transaction.commit();
-                manager.executePendingTransactions();
-            } else {
-                transaction.commitNow();
-            }
-        }
-
-        if(presenter != null && usingTemporaryStorage){
-            fragment.getPresenterStorage().add(presenter);
-            this.presenterStorage.remove(presenter);
-            usingTemporaryStorage = false;
-        }
-
-        this.presenterStorage = fragment.getPresenterStorage();
-    }
-
-
-    public void onDetach(boolean destroy){
-        if (presenter != null && destroy) {
-            presenter.destroy();
-            presenter = null;
-        }
-    }
-
 }

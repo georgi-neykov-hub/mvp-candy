@@ -6,14 +6,13 @@ import android.support.v4.app.Fragment;
 
 public class SupportPresenterStorageFragment extends Fragment{
 
-    static final String TAG = SupportPresenterStorageFragment.class.getSimpleName();
+    public static final String TAG = SupportPresenterStorageFragment.class.getSimpleName();
 
-    private DefaultPresenterStorage presenterStorage;
+    private final DefaultPresenterStorage presenterStorage = new DefaultPresenterStorage();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenterStorage = new DefaultPresenterStorage();
         setRetainInstance(true);
     }
 
