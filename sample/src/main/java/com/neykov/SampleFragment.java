@@ -6,16 +6,18 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 
 import com.neykov.mvp.PresenterFactory;
-import com.neykov.mvp.SupportPresenterLifecycleDelegate;
+import com.neykov.mvp.PresenterLifecycleDelegate;
+import com.neykov.mvp.SupportFragmentPresenterStorage;
 
 public class SampleFragment extends Fragment implements PresenterFactory<SamplePresenter> {
 
-    private SupportPresenterLifecycleDelegate<SamplePresenter> presenterLifecycleDelegate = new SupportPresenterLifecycleDelegate<>(this);
+    private PresenterLifecycleDelegate<SamplePresenter> presenterLifecycleDelegate;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenterLifecycleDelegate.onCreate(savedInstanceState, getActivity().getSupportFragmentManager());
+        presenterLifecycleDelegate = new PresenterLifecycleDelegate<>(this, SupportFragmentPresenterStorage.from(getFragmentManager()));
+        presenterLifecycleDelegate.onCreate(savedInstanceState);
         Log.d("Presenter instance: ", presenterLifecycleDelegate.getPresenter().toString());
     }
 

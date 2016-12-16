@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 
 import java.util.HashMap;
 
-class DefaultPresenterStorage implements PresenterStorage {
+public class DefaultPresenterStorage implements PresenterStorage {
     private HashMap<String, Presenter> idToPresenter = new HashMap<>();
     private HashMap<Presenter, String> presenterToId = new HashMap<>();
 
