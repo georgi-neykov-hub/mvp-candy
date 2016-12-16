@@ -28,3 +28,6 @@ dependencies {
     compile project(':core')
     compile project(':fragments')
 }
+
+apply from: '../bintray.gradle'
+apply from: '../maven-pom.gradle'

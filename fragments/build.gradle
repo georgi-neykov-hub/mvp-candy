@@ -27,3 +27,6 @@ android {
 dependencies {
     compile project(':core')
 }
+
+apply from: '../bintray.gradle'
+apply from: '../maven-pom.gradle'
