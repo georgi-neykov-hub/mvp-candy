@@ -26,6 +26,6 @@ android {
 
 dependencies {
     compile project(':core')
-    compile project(':support-v4')
+    compile project(':fragments-support-v4')
     compile dep.supportAppCompat
 }
