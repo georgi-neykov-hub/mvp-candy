@@ -1,8 +1,8 @@
 apply plugin: 'com.android.library'
 
 ext {
-    bintrayPackage = 'fragments-support'
-    artifact = 'fragments-support'
+    bintrayPackage = 'fragments-support-v4'
+    artifact = 'fragments-support-v4'
 }
 
 android {

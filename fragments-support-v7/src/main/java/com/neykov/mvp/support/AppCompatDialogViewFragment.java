@@ -3,7 +3,6 @@ package com.neykov.mvp.support;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatDialogFragment;
 
 import com.neykov.mvp.Presenter;
@@ -38,7 +37,7 @@ public abstract class AppCompatDialogViewFragment<P extends Presenter> extends A
     @Override
     public void onDestroy() {
         super.onDestroy();
-        presenterDelegate.destroy(getActivity().isFinishing());
+        presenterDelegate.destroy(presenterShouldBeDestroyed());
     }
 
     @CallSuper
