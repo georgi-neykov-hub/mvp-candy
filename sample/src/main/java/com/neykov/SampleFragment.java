@@ -7,7 +7,7 @@ import android.util.Log;
 
 import com.neykov.mvp.PresenterFactory;
 import com.neykov.mvp.PresenterLifecycleHelper;
-import com.neykov.mvp.SupportFragmentPresenterStorage;
+import com.neykov.mvp.support.FragmentPresenterStorage;
 
 public class SampleFragment extends Fragment implements PresenterFactory<SamplePresenter> {
 
@@ -16,7 +16,7 @@ public class SampleFragment extends Fragment implements PresenterFactory<SampleP
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenterLifecycleDelegate = new PresenterLifecycleHelper<>(this, SupportFragmentPresenterStorage.from(getFragmentManager()));
+        presenterLifecycleDelegate = new PresenterLifecycleHelper<>(this, FragmentPresenterStorage.from(getFragmentManager()));
         presenterLifecycleDelegate.restoreState(savedInstanceState);
         Log.d("Presenter instance: ", presenterLifecycleDelegate.getPresenter().toString());
     }

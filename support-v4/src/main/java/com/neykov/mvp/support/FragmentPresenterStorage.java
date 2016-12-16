@@ -1,19 +1,17 @@
-package com.neykov.mvp;
+package com.neykov.mvp.support;
 
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.FragmentManager;
 
-/**
- * Created by Georgi on 12/16/2016.
- */
+import com.neykov.mvp.PresenterStorage;
 
 @TargetApi(Build.VERSION_CODES.GINGERBREAD)
 @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD)
-public class SupportFragmentPresenterStorage {
+public class FragmentPresenterStorage {
 
-    private SupportFragmentPresenterStorage() {
+    private FragmentPresenterStorage() {
     }
 
     public static PresenterStorage from(FragmentManager fragmentManager){
@@ -21,12 +19,12 @@ public class SupportFragmentPresenterStorage {
             throw new IllegalArgumentException("FragmentManager argument cannot be null.");
         }
 
-        SupportPresenterStorageFragment fragment = (SupportPresenterStorageFragment)
-                fragmentManager.findFragmentByTag(SupportPresenterStorageFragment.TAG);
+        PresenterStorageFragment fragment = (PresenterStorageFragment)
+                fragmentManager.findFragmentByTag(PresenterStorageFragment.TAG);
         if (fragment == null) {
-            fragment = new SupportPresenterStorageFragment();
+            fragment = new PresenterStorageFragment();
             fragmentManager.beginTransaction()
-                    .add(fragment, SupportPresenterStorageFragment.TAG)
+                    .add(fragment, PresenterStorageFragment.TAG)
                     .disallowAddToBackStack()
                     .commit();
         }
