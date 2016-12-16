@@ -19,8 +19,8 @@ ext {
 
     isCi = "true".equals(System.getenv('CI'))
 
-    versionName = "1.1.0"
-    versionCode = 3;
+    versionName = "2.0.0"
+    versionCode = 4;
     libraryName = "mvp-candy"
     groupId = "com.neykov.mvp-candy"
     description = "A simple library offering MVP support for Android applications"
