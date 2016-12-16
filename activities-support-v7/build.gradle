@@ -1,8 +1,9 @@
 apply plugin: 'com.android.library'
 
+
 ext {
-    bintrayPackage = 'fragments-support-v4'
-    artifact = 'fragments-support-v4'
+    bintrayPackage = 'activities-support-v7'
+    artifact = 'activities-support-v7'
 }
 
 android {
@@ -26,5 +27,5 @@ android {
 
 dependencies {
     compile project(':core')
-    compile dep.supportFragments
+    compile project(':fragments-support-v7')
 }

@@ -35,6 +35,6 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile project(':core')
     compile project(':rx')
-    compile project(':fragments-support-v4')
+    compile project(':fragments-support-v7')
 
 }

@@ -1,1 +1,1 @@
-include ':core', ':rx', ':sample', ':fragments-support-v4', ':fragments-support-v7', ':fragments', ':activities'
+include ':core', ':rx', ':sample', ':fragments', ':fragments-support-v7', ':activities', ':activities-support-v7'
