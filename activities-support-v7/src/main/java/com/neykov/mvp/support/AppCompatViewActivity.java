@@ -28,14 +28,13 @@ public abstract class AppCompatViewActivity<P extends Presenter> extends AppComp
     public void onSaveInstanceState(Bundle bundle) {
         super.onSaveInstanceState(bundle);
         presenterDelegate.saveState(bundle);
-        presenterDelegate.unbindView(presenterShouldBeDestroyed());
     }
 
     @CallSuper
     @Override
     public void onDestroy() {
         super.onDestroy();
-        presenterDelegate.destroy(isFinishing());
+        presenterDelegate.destroy(presenterShouldBeDestroyed() || !isChangingConfigurations());
     }
 
     @CallSuper
@@ -57,7 +56,7 @@ public abstract class AppCompatViewActivity<P extends Presenter> extends AppComp
         return presenterDelegate.getPresenter();
     }
 
-    protected boolean presenterShouldBeDestroyed(){
+    protected boolean presenterShouldBeDestroyed() {
         return isFinishing();
     }
 }

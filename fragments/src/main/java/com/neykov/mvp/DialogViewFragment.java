@@ -25,14 +25,13 @@ public abstract class DialogViewFragment<P extends Presenter> extends DialogFrag
     public void onSaveInstanceState(Bundle bundle) {
         super.onSaveInstanceState(bundle);
         presenterDelegate.saveState(bundle);
-        presenterDelegate.unbindView(presenterShouldBeDestroyed());
     }
 
     @CallSuper
     @Override
     public void onDestroy() {
         super.onDestroy();
-        presenterDelegate.destroy(presenterShouldBeDestroyed());
+        presenterDelegate.destroy(presenterShouldBeDestroyed() || !getActivity().isChangingConfigurations());
     }
 
     @CallSuper
@@ -54,7 +53,7 @@ public abstract class DialogViewFragment<P extends Presenter> extends DialogFrag
         return presenterDelegate.getPresenter();
     }
 
-    protected boolean presenterShouldBeDestroyed(){
+    protected boolean presenterShouldBeDestroyed() {
         return getActivity().isFinishing();
     }
 }

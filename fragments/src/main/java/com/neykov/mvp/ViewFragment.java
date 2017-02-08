@@ -24,14 +24,13 @@ public abstract class ViewFragment<P extends Presenter> extends Fragment
     public void onSaveInstanceState(Bundle bundle) {
         super.onSaveInstanceState(bundle);
         presenterDelegate.saveState(bundle);
-        presenterDelegate.unbindView(presenterShouldBeDestroyed());
     }
 
     @CallSuper
     @Override
     public void onDestroy() {
         super.onDestroy();
-        presenterDelegate.destroy(getActivity().isFinishing());
+        presenterDelegate.destroy(presenterShouldBeDestroyed() || !getActivity().isChangingConfigurations());
     }
 
     @CallSuper
@@ -53,7 +52,7 @@ public abstract class ViewFragment<P extends Presenter> extends Fragment
         return presenterDelegate.getPresenter();
     }
 
-    protected boolean presenterShouldBeDestroyed(){
+    protected boolean presenterShouldBeDestroyed() {
         return getActivity().isFinishing();
     }
 }

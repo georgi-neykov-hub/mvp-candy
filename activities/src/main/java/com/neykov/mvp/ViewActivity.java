@@ -23,14 +23,13 @@ public abstract class ViewActivity<P extends Presenter> extends Activity impleme
     public void onSaveInstanceState(Bundle bundle) {
         super.onSaveInstanceState(bundle);
         presenterDelegate.saveState(bundle);
-        presenterDelegate.unbindView(presenterShouldBeDestroyed());
     }
 
     @CallSuper
     @Override
     public void onDestroy() {
         super.onDestroy();
-        presenterDelegate.destroy(isFinishing());
+        presenterDelegate.destroy(presenterShouldBeDestroyed() || !isChangingConfigurations());
     }
 
     @CallSuper
