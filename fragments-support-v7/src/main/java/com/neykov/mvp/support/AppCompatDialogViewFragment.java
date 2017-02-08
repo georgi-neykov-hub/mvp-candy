@@ -41,16 +41,16 @@ public abstract class AppCompatDialogViewFragment<P extends Presenter> extends A
 
     @CallSuper
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onResume() {
+        super.onResume();
         presenterDelegate.bindView(this);
     }
 
     @CallSuper
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onPause() {
         presenterDelegate.unbindView(presenterShouldBeDestroyed());
+        super.onPause();
     }
 
     @Override

@@ -35,16 +35,16 @@ public abstract class ViewFragment<P extends Presenter> extends Fragment
 
     @CallSuper
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onResume() {
+        super.onResume();
         presenterDelegate.bindView(this);
     }
 
     @CallSuper
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onPause() {
         presenterDelegate.unbindView(presenterShouldBeDestroyed());
+        super.onPause();
     }
 
     @Override
