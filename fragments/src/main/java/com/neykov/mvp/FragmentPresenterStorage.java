@@ -28,7 +28,7 @@ public class FragmentPresenterStorage {
             fragmentManager.beginTransaction()
                     .add(fragment, PresenterStorageFragment.TAG)
                     .disallowAddToBackStack()
-                    .commit();
+                    .commitAllowingStateLoss();
         }
         return fragment.getPresenterStorage();
     }
