@@ -7,7 +7,7 @@ ext {
     targetSdkVersion = 25
     sourceCompatibilityVersion = JavaVersion.VERSION_1_7
     targetCompatibilityVersion = JavaVersion.VERSION_1_7
-    supportLibrariesVersion = '25.1.1'
+    supportLibrariesVersion = '25.1.0'
 
     dep = [
             androidPlugin        : "com.android.tools.build:gradle:2.2.3",
