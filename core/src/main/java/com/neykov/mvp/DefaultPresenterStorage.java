@@ -2,11 +2,13 @@ package com.neykov.mvp;
 
 import android.support.annotation.NonNull;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 public class DefaultPresenterStorage implements PresenterStorage {
-    private HashMap<String, Presenter> idToPresenter = new HashMap<>();
-    private HashMap<Presenter, String> presenterToId = new HashMap<>();
+    private HashMap<String, Presenter<?>> idToPresenter = new HashMap<>();
+    private HashMap<Presenter<?>, String> presenterToId = new HashMap<>();
 
     /**
      * Adds a presenter to the storage
@@ -14,16 +16,11 @@ public class DefaultPresenterStorage implements PresenterStorage {
      * @param presenter a presenter to add
      */
     @Override
-    public void add(@NonNull final Presenter presenter) {
+    public void add(@NonNull final Presenter<?> presenter) {
         String id = presenter.getClass().getSimpleName() + "/" + System.nanoTime() + "/" + (int) (Math.random() * Integer.MAX_VALUE);
         idToPresenter.put(id, presenter);
         presenterToId.put(presenter, id);
-        presenter.addOnDestroyListener(new Presenter.OnDestroyListener() {
-            @Override
-            public void onDestroy() {
-                idToPresenter.remove(presenterToId.remove(presenter));
-            }
-        });
+        presenter.addOnDestroyListener(onDestroyListener);
     }
 
     /**
@@ -34,7 +31,7 @@ public class DefaultPresenterStorage implements PresenterStorage {
      * @return a presenter or null
      */
     @Override
-    public <P> P getPresenter(@NonNull String id) {
+    public <P extends Presenter<?>> P getPresenter(@NonNull String id) {
         //noinspection unchecked
         return (P)idToPresenter.get(id);
     }
@@ -55,6 +52,7 @@ public class DefaultPresenterStorage implements PresenterStorage {
         Presenter presenter = idToPresenter.remove(id);
         if(presenter != null){
             presenterToId.remove(presenter);
+            presenter.removeOnDestroyListener(onDestroyListener);
         }
         return presenter;
     }
@@ -64,6 +62,7 @@ public class DefaultPresenterStorage implements PresenterStorage {
         String id = presenterToId.remove(presenter);
         if(id != null){
             idToPresenter.remove(id);
+            presenter.removeOnDestroyListener(onDestroyListener);
         }
         return id;
     }
@@ -74,7 +73,23 @@ public class DefaultPresenterStorage implements PresenterStorage {
      */
     @Override
     public void clear() {
+        final Collection<Presenter<?>> presenters = new ArrayList<>(presenterToId.keySet());
+        for (Presenter<?> presenter : presenters){
+            presenter.removeOnDestroyListener(onDestroyListener);
+            presenter.destroy();
+        }
         presenterToId.clear();
         idToPresenter.clear();
     }
+
+    private Presenter.OnDestroyListener onDestroyListener = new Presenter.OnDestroyListener() {
+        @Override
+        public void onDestroy(Presenter<?> instance) {
+            instance.removeOnDestroyListener(this);
+            String id = presenterToId.remove(instance);
+            if (id != null) {
+                idToPresenter.remove(id);
+            }
+        }
+    };
 }

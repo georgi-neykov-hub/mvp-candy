@@ -32,11 +32,15 @@ public class PresenterLifecycleHelper<P extends Presenter> {
             String presenterId = bundle.getString(KEY_PRESENTER_ID);
             if (presenterId != null) {
                 presenter = presenterStorage.getPresenter(presenterId);
+                if (presenter != null) {
+                    presenter.addOnDestroyListener(presenterDestroyListener);
+                }
             }
         }
         if (presenter == null) {
             presenter = presenterFactory.createPresenter();
             presenterStorage.add(presenter);
+            presenter.addOnDestroyListener(presenterDestroyListener);
             presenter.create(bundle == null ? null : bundle.getBundle(KEY_PRESENTER_STATE));
         }
         bundle = null;
@@ -60,9 +64,10 @@ public class PresenterLifecycleHelper<P extends Presenter> {
      */
     public void bindView(Object view) {
         getPresenter();
-        if (presenter != null)
+        if (presenter != null) {
             //noinspection unchecked
             presenter.takeView(view);
+        }
     }
 
     /**
@@ -72,16 +77,23 @@ public class PresenterLifecycleHelper<P extends Presenter> {
         if (presenter != null) {
             presenter.dropView();
             if (destroy) {
-                presenter.destroy();
-                presenter = null;
+                destroyPresenter();
             }
         }
     }
 
+    private void destroyPresenter() {
+        if (presenter == null) {
+            throw new AssertionError("Cannot destroy, presenter is null.");
+        }
+        presenter.removeOnDestroyListener(presenterDestroyListener);
+        presenter.destroy();
+        presenter = null;
+    }
+
     public void destroy(boolean destroyPresenter) {
         if (presenter != null && destroyPresenter) {
-            presenter.destroy();
-            presenter = null;
+            destroyPresenter();
         }
     }
 
@@ -92,4 +104,14 @@ public class PresenterLifecycleHelper<P extends Presenter> {
             this.bundle = savedState.getBundle(KEY_PRESENTER_STATE);
         }
     }
+
+    private Presenter.OnDestroyListener presenterDestroyListener = new Presenter.OnDestroyListener() {
+        @Override
+        public void onDestroy(Presenter<?> presenter) {
+            presenter.removeOnDestroyListener(this);
+            if (PresenterLifecycleHelper.this.presenter == presenter){
+                PresenterLifecycleHelper.this.presenter = null;
+            }
+        }
+    };
 }

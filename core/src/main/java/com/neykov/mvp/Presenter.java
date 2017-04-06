@@ -5,6 +5,9 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
@@ -81,7 +84,7 @@ public class Presenter<View> {
         /**
          * Called before {@link Presenter#onDestroy()}.
          */
-        void onDestroy();
+        void onDestroy(Presenter<?> instance);
     }
 
     /**
@@ -123,9 +126,16 @@ public class Presenter<View> {
      * Destroys the presenter, calling all {@link OnDestroyListener} callbacks.
      */
     public void destroy() {
-        for (OnDestroyListener listener : onDestroyListeners)
-            listener.onDestroy();
         onDestroy();
+
+        Collection<OnDestroyListener> listeners = new ArrayList<>(onDestroyListeners);
+        Iterator<OnDestroyListener> iterator = listeners.iterator();
+        while (iterator.hasNext()){
+            OnDestroyListener listener = iterator.next();
+            listener.onDestroy(this);
+            iterator.remove();
+        }
+        onDestroyListeners.clear();
     }
 
     /**
