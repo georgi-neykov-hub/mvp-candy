@@ -31,7 +31,7 @@ public abstract class DialogViewFragment<P extends Presenter> extends DialogFrag
     @Override
     public void onDestroy() {
         super.onDestroy();
-        presenterDelegate.destroy(presenterShouldBeDestroyed() || !getActivity().isChangingConfigurations());
+        presenterDelegate.destroy(presenterShouldBeDestroyed());
     }
 
     @CallSuper

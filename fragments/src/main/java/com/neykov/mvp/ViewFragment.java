@@ -30,7 +30,7 @@ public abstract class ViewFragment<P extends Presenter> extends Fragment
     @Override
     public void onDestroy() {
         super.onDestroy();
-        presenterDelegate.destroy(presenterShouldBeDestroyed() || !getActivity().isChangingConfigurations());
+        presenterDelegate.destroy(presenterShouldBeDestroyed());
     }
 
     @CallSuper

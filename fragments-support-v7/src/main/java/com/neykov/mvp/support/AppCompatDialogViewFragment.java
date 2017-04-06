@@ -36,7 +36,7 @@ public abstract class AppCompatDialogViewFragment<P extends Presenter> extends A
     @Override
     public void onDestroy() {
         super.onDestroy();
-        presenterDelegate.destroy(presenterShouldBeDestroyed() || !getActivity().isChangingConfigurations());
+        presenterDelegate.destroy(presenterShouldBeDestroyed());
     }
 
     @CallSuper
