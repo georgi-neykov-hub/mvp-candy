@@ -10,7 +10,7 @@ ext {
     supportLibrariesVersion = '25.1.0'
 
     dep = [
-            androidPlugin        : "com.android.tools.build:gradle:2.2.3",
+            androidPlugin        : "com.android.tools.build:gradle:2.3.0",
             supportFragments  : "com.android.support:support-fragment:$supportLibrariesVersion",
             supportAnnotations   : "com.android.support:support-annotations:$supportLibrariesVersion",
             supportAppCompat : "com.android.support:appcompat-v7:$supportLibrariesVersion",
