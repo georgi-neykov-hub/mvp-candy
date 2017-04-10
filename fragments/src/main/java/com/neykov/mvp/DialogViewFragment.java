@@ -11,6 +11,13 @@ public abstract class DialogViewFragment<P extends Presenter> extends DialogFrag
 
     private PresenterLifecycleHelper<P> presenterDelegate;
 
+    public void setUnbindOnStateSaved(boolean unbind){
+        if (presenterDelegate == null){
+            throw new IllegalStateException("setUnbindOnStateSaved() should be called inside or after onCreate().");
+        }
+        presenterDelegate.setUnbindOnStateSaved(unbind);
+    }
+
     @CallSuper
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -18,6 +25,7 @@ public abstract class DialogViewFragment<P extends Presenter> extends DialogFrag
         presenterDelegate = new PresenterLifecycleHelper<>(this,
                 FragmentPresenterStorage.from(getActivity().getFragmentManager()));
         presenterDelegate.restoreState(savedInstanceState);
+        presenterDelegate.markViewStateRestored();
     }
 
     @CallSuper
@@ -34,10 +42,17 @@ public abstract class DialogViewFragment<P extends Presenter> extends DialogFrag
         presenterDelegate.destroy(presenterShouldBeDestroyed());
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        presenterDelegate.markViewStateRestored();
+    }
+
     @CallSuper
     @Override
     public void onResume() {
         super.onResume();
+        presenterDelegate.markViewStateRestored();
         presenterDelegate.bindView(this);
     }
 

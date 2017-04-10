@@ -14,6 +14,13 @@ public abstract class AppCompatViewActivity<P extends Presenter> extends AppComp
 
     private PresenterLifecycleHelper<P> presenterDelegate;
 
+    public void setUnbindOnStateSaved(boolean unbind){
+        if (presenterDelegate == null){
+            throw new IllegalStateException("setUnbindOnStateSaved() should be called inside or after onCreate().");
+        }
+        presenterDelegate.setUnbindOnStateSaved(unbind);
+    }
+
     @CallSuper
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,6 +56,12 @@ public abstract class AppCompatViewActivity<P extends Presenter> extends AppComp
     public void onPause() {
         presenterDelegate.unbindView(presenterShouldBeDestroyed());
         super.onPause();
+    }
+
+    @Override
+    public void onStateNotSaved() {
+        super.onStateNotSaved();
+        presenterDelegate.markViewStateRestored();
     }
 
     @Override
