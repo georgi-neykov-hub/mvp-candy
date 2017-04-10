@@ -15,11 +15,9 @@ import com.neykov.mvp.delivery.Delivery;
 import com.neykov.mvp.delivery.RxDeliveryDelegate;
 import rx.Observable;
 import rx.Subscription;
-import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Action2;
 import rx.functions.Func0;
-import rx.functions.Func1;
 import rx.internal.util.SubscriptionList;
 import rx.subjects.BehaviorSubject;
 
@@ -262,34 +260,6 @@ public class RxPresenter<View> extends Presenter<View> {
      */
     public <T> Action1<Delivery<View, T>> split(Action2<View, T> onNext) {
         return split(onNext, null);
-    }
-
-    public void executeWhenViewBound(final Action0 action0){
-        add(viewStatus().skipWhile(new Func1<Boolean, Boolean>() {
-            @Override
-            public Boolean call(Boolean aBoolean) {
-                return !aBoolean;
-            }
-        }).subscribe(new Action1<Boolean>() {
-            @Override
-            public void call(Boolean aBoolean) {
-                action0.call();
-            }
-        }));
-    }
-
-    public void executeWhenViewBound(final Runnable runnable){
-        add(viewStatus().skipWhile(new Func1<Boolean, Boolean>() {
-            @Override
-            public Boolean call(Boolean aBoolean) {
-                return !aBoolean;
-            }
-        }).subscribe(new Action1<Boolean>() {
-            @Override
-            public void call(Boolean aBoolean) {
-                runnable.run();
-            }
-        }));
     }
 
     /**
