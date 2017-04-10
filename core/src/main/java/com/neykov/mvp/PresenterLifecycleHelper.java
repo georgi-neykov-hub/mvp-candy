@@ -13,6 +13,14 @@ public class PresenterLifecycleHelper<P extends Presenter> {
     @Nullable
     private Bundle bundle;
 
+    private boolean unbindOnStateSaved;
+    private boolean stateSaved;
+
+    public void setUnbindOnStateSaved(boolean unbind){
+        unbindOnStateSaved = unbind;
+        unbindOnSaveStateChangeIfNeeded();
+    }
+
     public PresenterLifecycleHelper(PresenterFactory<P> presenterFactory, PresenterStorage presenterStorage) {
         if (presenterFactory == null) {
             throw new IllegalArgumentException("PresenterFactory argument cannot be null.");
@@ -47,6 +55,10 @@ public class PresenterLifecycleHelper<P extends Presenter> {
         return presenter;
     }
 
+    public void markViewStateRestored(){
+        stateSaved= false;
+    }
+
     /**
      * {@link android.app.Activity#onSaveInstanceState(Bundle)}, {@link android.app.Fragment#onSaveInstanceState(Bundle)}, {@link android.view.View#onSaveInstanceState()}.
      */
@@ -57,17 +69,26 @@ public class PresenterLifecycleHelper<P extends Presenter> {
             presenter.save(presenterBundle);
             bundle.putBundle(KEY_PRESENTER_STATE, presenterBundle);
         }
+        stateSaved = true;
+        unbindOnSaveStateChangeIfNeeded();
+    }
+
+    private void unbindOnSaveStateChangeIfNeeded() {
+        if (unbindOnStateSaved && // Action desired
+                stateSaved && // Action needed
+                presenter != null && // There's a presenter
+                presenter.getView() != null // There's a bound view
+                ){
+            presenter.dropView();
+        }
     }
 
     /**
      * {@link android.app.Activity#onResume()}, {@link android.app.Fragment#onResume()}, {@link android.view.View#onAttachedToWindow()}
      */
     public void bindView(Object view) {
-        getPresenter();
-        if (presenter != null) {
-            //noinspection unchecked
-            presenter.takeView(view);
-        }
+        //noinspection unchecked
+        getPresenter().takeView(view);
     }
 
     /**
