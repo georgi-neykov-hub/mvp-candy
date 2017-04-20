@@ -13,6 +13,7 @@ import com.neykov.mvp.delivery.DeliverLatestCache;
 import com.neykov.mvp.delivery.DeliverReplay;
 import com.neykov.mvp.delivery.Delivery;
 import com.neykov.mvp.delivery.RxDeliveryDelegate;
+
 import rx.Observable;
 import rx.Subscription;
 import rx.functions.Action0;
@@ -70,7 +71,7 @@ public class RxPresenter<View> extends Presenter<View> {
      * A restartable is any RxJava observable that can be started (subscribed) and
      * should be automatically restarted (re-subscribed) after a process restart if
      * it was still subscribed at the moment of saving presenter's state.
-     *
+     * <p>
      * Registers a factory. Re-subscribes the restartable after the process restart.
      *
      * @param restartableId id of the restartable
@@ -99,7 +100,7 @@ public class RxPresenter<View> extends Presenter<View> {
      * @param restartableId id of a restartable.
      */
     public void stop(int restartableId) {
-        requested.remove((Integer)restartableId);
+        requested.remove((Integer) restartableId);
         Subscription subscription = restartableSubscriptions.get(restartableId);
         if (subscription != null)
             subscription.unsubscribe();
@@ -204,7 +205,7 @@ public class RxPresenter<View> extends Presenter<View> {
     /**
      * Returns an {@link rx.Observable.Transformer} that couples views with data that has been emitted by
      * the source {@link rx.Observable}.
-     *
+     * <p>
      * {@link #deliverLatestCache} keeps the latest onNext value and emits it each time a new view gets attached.
      * If a new onNext value appears while a view is attached, it will be delivered immediately.
      *
@@ -217,7 +218,7 @@ public class RxPresenter<View> extends Presenter<View> {
     /**
      * Returns an {@link rx.Observable.Transformer} that couples views with data that has been emitted by
      * the source {@link rx.Observable}.
-     *
+     * <p>
      * {@link #deliverFirst} delivers only the first onNext value that has been emitted by the source observable.
      *
      * @param <T> the type of source observable emissions
@@ -229,7 +230,7 @@ public class RxPresenter<View> extends Presenter<View> {
     /**
      * Returns an {@link rx.Observable.Transformer} that couples views with data that has been emitted by
      * the source {@link rx.Observable}.
-     *
+     * <p>
      * {@link #deliverReplay} keeps all onNext values and emits them each time a new view gets attached.
      * If a new onNext value appears while a view is attached, it will be delivered immediately.
      *
@@ -264,18 +265,22 @@ public class RxPresenter<View> extends Presenter<View> {
         return split(onNext, null);
     }
 
-    public void doWhenViewBound(final Action1<View> action){
-        add(view().skipWhile(new Func1<View, Boolean>() {
-            @Override
-            public Boolean call(View view) {
-                return view == null;
-            }
-        }).subscribe(new Action1<View>() {
-            @Override
-            public void call(View view) {
-                action.call(view);
-            }
-        }));
+    public void doWhenViewBound(final Action1<View> action) {
+        add(view()
+                .skipWhile(new Func1<View, Boolean>() {
+                    @Override
+                    public Boolean call(View view) {
+                        return view == null;
+                    }
+                })
+                .take(1)
+                .subscribe(new Action1<View>() {
+                    @Override
+                    public void call(View view) {
+                        action.call(view);
+                    }
+                })
+        );
     }
 
     /**
@@ -341,7 +346,7 @@ public class RxPresenter<View> extends Presenter<View> {
     }
 
 
-    public RxPresenter(){
+    public RxPresenter() {
         super();
 
     }
