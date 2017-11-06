@@ -24,6 +24,7 @@ android {
 
 dependencies {
     compile project(':core')
+    provided dep.supportAnnotations
     provided dep.rxJava
 }
 

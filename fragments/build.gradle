@@ -26,6 +26,7 @@ android {
 
 dependencies {
     compile project(':core')
+    provided dep.supportAnnotations
 }
 
 apply from: '../bintray.gradle'

@@ -28,6 +28,8 @@ android {
 dependencies {
     compile project(':core')
     compile project(':fragments-support-v7')
+    provided dep.supportAppCompat
+    provided dep.supportAnnotations
 }
 
 apply from: '../bintray.gradle'
