@@ -1,16 +1,16 @@
 ext {
-    compileSdkVersion = 25
-    buildToolsVersion = '25.0.2'
+    compileSdkVersion = 26
+    buildToolsVersion = '26.0.0'
     minSdkVersion = 11
     minSupportSdkVersion = 11
 
-    targetSdkVersion = 25
+    targetSdkVersion = 26
     sourceCompatibilityVersion = JavaVersion.VERSION_1_7
     targetCompatibilityVersion = JavaVersion.VERSION_1_7
-    supportLibrariesVersion = '25.1.0'
+    supportLibrariesVersion = '25.4.0'
 
     dep = [
-            androidPlugin        : "com.android.tools.build:gradle:2.3.0",
+            androidPlugin        : "com.android.tools.build:gradle:2.3.3",
             supportFragments  : "com.android.support:support-fragment:$supportLibrariesVersion",
             supportAnnotations   : "com.android.support:support-annotations:$supportLibrariesVersion",
             supportAppCompat : "com.android.support:appcompat-v7:$supportLibrariesVersion",
@@ -19,8 +19,6 @@ ext {
 
     isCi = "true".equals(System.getenv('CI'))
 
-    versionName = "3.1.1"
-    versionCode = 10
     libraryName = "mvp-candy"
     groupId = "com.neykov.mvp-candy"
     description = "A simple library offering MVP support for Android applications"
