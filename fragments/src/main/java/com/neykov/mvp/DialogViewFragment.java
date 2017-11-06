@@ -25,12 +25,13 @@ public abstract class DialogViewFragment<P extends Presenter> extends DialogFrag
         presenterDelegate = new PresenterLifecycleHelper<>(this,
                 FragmentPresenterStorage.from(getActivity().getFragmentManager()));
         presenterDelegate.restoreState(savedInstanceState);
-        presenterDelegate.markViewStateRestored();
+        presenterDelegate.markSaveStateChanged(false);
     }
 
     @CallSuper
     @Override
     public void onSaveInstanceState(Bundle bundle) {
+        presenterDelegate.markSaveStateChanged(true);
         super.onSaveInstanceState(bundle);
         presenterDelegate.saveState(bundle);
     }
@@ -45,14 +46,14 @@ public abstract class DialogViewFragment<P extends Presenter> extends DialogFrag
     @Override
     public void onStart() {
         super.onStart();
-        presenterDelegate.markViewStateRestored();
+        presenterDelegate.markSaveStateChanged(false);
     }
 
     @CallSuper
     @Override
     public void onResume() {
         super.onResume();
-        presenterDelegate.markViewStateRestored();
+        presenterDelegate.markSaveStateChanged(false);
         presenterDelegate.bindView(this);
     }
 

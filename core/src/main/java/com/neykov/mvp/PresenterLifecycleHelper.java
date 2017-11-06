@@ -4,10 +4,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 public class PresenterLifecycleHelper<P extends Presenter> {
+
     private static final String KEY_PRESENTER_STATE = "presenter";
     private static final String KEY_PRESENTER_ID = "presenter_id";
-    protected final PresenterStorage presenterStorage;
-    protected final PresenterFactory<P> presenterFactory;
+
+    private final PresenterStorage presenterStorage;
+    private final PresenterFactory<P> presenterFactory;
+
     @Nullable
     private P presenter;
     @Nullable
@@ -15,11 +18,6 @@ public class PresenterLifecycleHelper<P extends Presenter> {
 
     private boolean unbindOnStateSaved;
     private boolean stateSaved;
-
-    public void setUnbindOnStateSaved(boolean unbind){
-        unbindOnStateSaved = unbind;
-        unbindOnSaveStateChangeIfNeeded();
-    }
 
     public PresenterLifecycleHelper(PresenterFactory<P> presenterFactory, PresenterStorage presenterStorage) {
         if (presenterFactory == null) {
@@ -55,8 +53,19 @@ public class PresenterLifecycleHelper<P extends Presenter> {
         return presenter;
     }
 
-    public void markViewStateRestored(){
-        stateSaved= false;
+    @Deprecated
+    public void markViewStateRestored() {
+        markSaveStateChanged(false);
+    }
+
+    public void markSaveStateChanged(boolean stateSaved) {
+        this.stateSaved = stateSaved;
+        unbindOnSaveStateChangeIfNeeded();
+    }
+
+    public void setUnbindOnStateSaved(boolean unbind) {
+        unbindOnStateSaved = unbind;
+        unbindOnSaveStateChangeIfNeeded();
     }
 
     /**
@@ -69,8 +78,6 @@ public class PresenterLifecycleHelper<P extends Presenter> {
             presenter.save(presenterBundle);
             bundle.putBundle(KEY_PRESENTER_STATE, presenterBundle);
         }
-        stateSaved = true;
-        unbindOnSaveStateChangeIfNeeded();
     }
 
     private void unbindOnSaveStateChangeIfNeeded() {
@@ -78,7 +85,7 @@ public class PresenterLifecycleHelper<P extends Presenter> {
                 stateSaved && // Action needed
                 presenter != null && // There's a presenter
                 presenter.getView() != null // There's a bound view
-                ){
+                ) {
             presenter.dropView();
         }
     }
@@ -118,7 +125,7 @@ public class PresenterLifecycleHelper<P extends Presenter> {
         }
     }
 
-    public void restoreState(@Nullable Bundle savedState){
+    public void restoreState(@Nullable Bundle savedState) {
         if (savedState != null) {
             if (presenter != null)
                 throw new IllegalStateException("getPresenter() called before onCreate()");
@@ -130,7 +137,7 @@ public class PresenterLifecycleHelper<P extends Presenter> {
         @Override
         public void onDestroy(Presenter<?> presenter) {
             presenter.removeOnDestroyListener(this);
-            if (PresenterLifecycleHelper.this.presenter == presenter){
+            if (PresenterLifecycleHelper.this.presenter == presenter) {
                 PresenterLifecycleHelper.this.presenter = null;
             }
         }

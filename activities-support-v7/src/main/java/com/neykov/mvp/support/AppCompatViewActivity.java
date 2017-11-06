@@ -33,6 +33,7 @@ public abstract class AppCompatViewActivity<P extends Presenter> extends AppComp
     @CallSuper
     @Override
     public void onSaveInstanceState(Bundle bundle) {
+        presenterDelegate.markSaveStateChanged(true);
         super.onSaveInstanceState(bundle);
         presenterDelegate.saveState(bundle);
     }
@@ -60,8 +61,8 @@ public abstract class AppCompatViewActivity<P extends Presenter> extends AppComp
 
     @Override
     public void onStateNotSaved() {
+        presenterDelegate.markSaveStateChanged(false);
         super.onStateNotSaved();
-        presenterDelegate.markViewStateRestored();
     }
 
     @Override

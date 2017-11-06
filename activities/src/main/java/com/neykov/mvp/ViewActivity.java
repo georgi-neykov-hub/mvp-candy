@@ -30,6 +30,7 @@ public abstract class ViewActivity<P extends Presenter> extends Activity impleme
     @CallSuper
     @Override
     public void onSaveInstanceState(Bundle bundle) {
+        presenterDelegate.markSaveStateChanged(true);
         super.onSaveInstanceState(bundle);
         presenterDelegate.saveState(bundle);
     }
@@ -58,8 +59,8 @@ public abstract class ViewActivity<P extends Presenter> extends Activity impleme
     @Override
     @TargetApi(Build.VERSION_CODES.M)
     public void onStateNotSaved() {
+        presenterDelegate.markSaveStateChanged(false);
         super.onStateNotSaved();
-        presenterDelegate.markViewStateRestored();
     }
 
     @Override
