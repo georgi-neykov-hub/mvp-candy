@@ -1,6 +1,6 @@
 package com.neykov.mvp.delivery;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import rx.Notification;
 import rx.functions.Action2;

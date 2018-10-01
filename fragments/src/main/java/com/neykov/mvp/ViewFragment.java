@@ -2,8 +2,8 @@ package com.neykov.mvp;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.support.annotation.CallSuper;
-import android.support.annotation.Nullable;
+import androidx.annotation.CallSuper;
+import androidx.annotation.Nullable;
 
 public abstract class ViewFragment<P extends Presenter> extends Fragment
         implements ViewWithPresenter<P>, PresenterFactory<P> {

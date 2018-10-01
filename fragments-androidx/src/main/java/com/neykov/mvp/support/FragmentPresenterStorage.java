@@ -2,8 +2,8 @@ package com.neykov.mvp.support;
 
 import android.annotation.TargetApi;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
-import android.support.v4.app.FragmentManager;
+import androidx.annotation.RequiresApi;
+import androidx.fragment.app.FragmentManager;
 
 import com.neykov.mvp.PresenterStorage;
 

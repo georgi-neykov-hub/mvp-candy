@@ -2,8 +2,8 @@ package com.neykov.mvp;
 
 import android.app.DialogFragment;
 import android.os.Bundle;
-import android.support.annotation.CallSuper;
-import android.support.annotation.Nullable;
+import androidx.annotation.CallSuper;
+import androidx.annotation.Nullable;
 
 @SuppressWarnings("unused")
 public abstract class DialogViewFragment<P extends Presenter> extends DialogFragment

@@ -3,7 +3,7 @@ package com.neykov.mvp;
 import android.annotation.TargetApi;
 import android.app.FragmentManager;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
+import androidx.annotation.RequiresApi;
 
 /**
  * Created by Georgi on 12/16/2016.

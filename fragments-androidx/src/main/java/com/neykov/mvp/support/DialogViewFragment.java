@@ -1,9 +1,9 @@
 package com.neykov.mvp.support;
 
 import android.os.Bundle;
-import android.support.annotation.CallSuper;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import androidx.annotation.CallSuper;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 
 import com.neykov.mvp.Presenter;
 import com.neykov.mvp.PresenterFactory;
@@ -11,7 +11,7 @@ import com.neykov.mvp.PresenterLifecycleHelper;
 import com.neykov.mvp.ViewWithPresenter;
 
 @SuppressWarnings("unused")
-public abstract class ViewFragment<P extends Presenter> extends Fragment
+public abstract class DialogViewFragment<P extends Presenter> extends DialogFragment
         implements ViewWithPresenter<P>, PresenterFactory<P> {
 
     private PresenterLifecycleHelper<P> presenterDelegate;

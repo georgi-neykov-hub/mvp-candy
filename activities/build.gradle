@@ -10,7 +10,7 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
-        minSdkVersion 11
+        minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode rootProject.ext.versionCode
         versionName rootProject.ext.versionName
@@ -25,9 +25,10 @@ android {
 }
 
 dependencies {
-    compile project(':core')
-    compile project(':fragments')
-    provided dep.supportAnnotations
+    api project(':core')
+    implementation project(':fragments')
+
+    compileOnly dep.androidxAnnotations
 }
 
 apply from: '../bintray.gradle'

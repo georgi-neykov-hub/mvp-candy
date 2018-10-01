@@ -1,23 +1,22 @@
 package com.neykov.mvp.support;
 
 import android.os.Bundle;
-import android.support.annotation.CallSuper;
-import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
 
 import com.neykov.mvp.Presenter;
 import com.neykov.mvp.PresenterFactory;
 import com.neykov.mvp.PresenterLifecycleHelper;
 import com.neykov.mvp.ViewWithPresenter;
 
-@SuppressWarnings("unused")
-public abstract class DialogViewFragment<P extends Presenter> extends DialogFragment
-        implements ViewWithPresenter<P>, PresenterFactory<P> {
+import androidx.annotation.CallSuper;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
+public abstract class AppCompatViewActivity<P extends Presenter> extends AppCompatActivity implements ViewWithPresenter<P>, PresenterFactory<P> {
 
     private PresenterLifecycleHelper<P> presenterDelegate;
 
-    public void setUnbindOnStateSaved(boolean unbind){
-        if (presenterDelegate == null){
+    public void setUnbindOnStateSaved(boolean unbind) {
+        if (presenterDelegate == null) {
             throw new IllegalStateException("setUnbindOnStateSaved() should be called inside or after onCreate().");
         }
         presenterDelegate.setUnbindOnStateSaved(unbind);
@@ -28,9 +27,8 @@ public abstract class DialogViewFragment<P extends Presenter> extends DialogFrag
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         presenterDelegate = new PresenterLifecycleHelper<>(this,
-                FragmentPresenterStorage.from(getActivity().getSupportFragmentManager()));
+                FragmentPresenterStorage.from(getSupportFragmentManager()));
         presenterDelegate.restoreState(savedInstanceState);
-        presenterDelegate.markSaveStateChanged(false);
     }
 
     @CallSuper
@@ -45,20 +43,13 @@ public abstract class DialogViewFragment<P extends Presenter> extends DialogFrag
     @Override
     public void onDestroy() {
         super.onDestroy();
-        presenterDelegate.destroy(presenterShouldBeDestroyed());
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        presenterDelegate.markSaveStateChanged(false);
+        presenterDelegate.destroy(presenterShouldBeDestroyed() || !isChangingConfigurations());
     }
 
     @CallSuper
     @Override
     public void onResume() {
         super.onResume();
-        presenterDelegate.markSaveStateChanged(false);
         presenterDelegate.bindView(this);
     }
 
@@ -70,11 +61,17 @@ public abstract class DialogViewFragment<P extends Presenter> extends DialogFrag
     }
 
     @Override
+    public void onStateNotSaved() {
+        presenterDelegate.markSaveStateChanged(false);
+        super.onStateNotSaved();
+    }
+
+    @Override
     public final P getPresenter() {
         return presenterDelegate.getPresenter();
     }
 
     protected boolean presenterShouldBeDestroyed() {
-        return getActivity().isFinishing();
+        return isFinishing();
     }
 }

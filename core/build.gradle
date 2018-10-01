@@ -23,7 +23,7 @@ android {
 }
 
 dependencies {
-    provided dep.supportAnnotations
+    compileOnly dep.androidxAnnotations
 }
 
 apply from: '../bintray.gradle'

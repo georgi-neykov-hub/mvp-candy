@@ -1,8 +1,8 @@
 apply plugin: 'com.android.library'
 
 ext {
-    bintrayPackage = 'fragments-support-v7'
-    artifact = 'fragments-support-v7'
+    bintrayPackage = 'fragments-android-x'
+    artifact = 'fragments-androidx'
 }
 
 android {
@@ -25,9 +25,10 @@ android {
 }
 
 dependencies {
-    compile project(':core')
-    provided dep.supportAppCompat
-    provided dep.supportAnnotations
+    api project(':core')
+    compileOnly dep.androidxFragments
+    compileOnly dep.androidxAppCompat
+    compileOnly dep.androidxAnnotations
 }
 
 apply from: '../bintray.gradle'

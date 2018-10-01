@@ -1,6 +1,6 @@
 package com.neykov.mvp;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 public interface PresenterStorage {
     /**

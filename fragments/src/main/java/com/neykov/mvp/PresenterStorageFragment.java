@@ -3,9 +3,9 @@ package com.neykov.mvp;
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.app.Fragment;
-import android.support.annotation.RequiresApi;
+import androidx.annotation.RequiresApi;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)

@@ -1,7 +1,7 @@
 package com.neykov;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import androidx.fragment.app.FragmentActivity;
 
 import com.neykov.mvp.sample.R;
 

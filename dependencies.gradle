@@ -1,20 +1,19 @@
 ext {
-    compileSdkVersion = 26
-    buildToolsVersion = '26.0.0'
-    minSdkVersion = 11
-    minSupportSdkVersion = 11
+    compileSdkVersion = 28
+    buildToolsVersion = '28.0.3'
+    minSdkVersion = 14
+    minSupportSdkVersion = 14
 
-    targetSdkVersion = 26
+    targetSdkVersion = 28
     sourceCompatibilityVersion = JavaVersion.VERSION_1_7
     targetCompatibilityVersion = JavaVersion.VERSION_1_7
-    supportLibrariesVersion = '25.4.0'
 
     dep = [
-            androidPlugin        : "com.android.tools.build:gradle:2.3.3",
-            supportFragments  : "com.android.support:support-fragment:$supportLibrariesVersion",
-            supportAnnotations   : "com.android.support:support-annotations:$supportLibrariesVersion",
-            supportAppCompat : "com.android.support:appcompat-v7:$supportLibrariesVersion",
-            rxJava   : "io.reactivex:rxjava:1.2.5"
+            androidPlugin : "com.android.tools.build:gradle:3.2.0",
+            androidxFragments : "androidx.fragment:fragment:1.0.0",
+            androidxAnnotations : "androidx.annotation:annotation:1.0.0",
+            androidxAppCompat : "androidx.appcompat:appcompat:1.0.0",
+            rxJava : "io.reactivex:rxjava:1.3.8"
     ]
 
     isCi = "true".equals(System.getenv('CI'))

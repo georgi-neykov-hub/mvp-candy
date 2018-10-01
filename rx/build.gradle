@@ -23,9 +23,9 @@ android {
 }
 
 dependencies {
-    compile project(':core')
-    provided dep.supportAnnotations
-    provided dep.rxJava
+    api project(':core')
+    compileOnly dep.androidxAnnotations
+    compileOnly dep.rxJava
 }
 
 apply from: '../bintray.gradle'

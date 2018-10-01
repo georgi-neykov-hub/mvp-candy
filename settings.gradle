@@ -1,1 +1,1 @@
-include ':core', ':rx', ':sample', ':fragments', ':fragments-support-v7', ':activities', ':activities-support-v7'
+include ':core', ':rx', ':sample', ':fragments', ':fragments-androidx', ':activities', ':activities-androidx'

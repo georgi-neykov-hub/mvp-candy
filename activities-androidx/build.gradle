@@ -2,8 +2,8 @@ apply plugin: 'com.android.library'
 
 
 ext {
-    bintrayPackage = 'activities-support-v7'
-    artifact = 'activities-support-v7'
+    bintrayPackage = 'activities-androidx'
+    artifact = 'activities-androidx'
 }
 
 android {
@@ -26,10 +26,10 @@ android {
 }
 
 dependencies {
-    compile project(':core')
-    compile project(':fragments-support-v7')
-    provided dep.supportAppCompat
-    provided dep.supportAnnotations
+    api project(':core')
+    implementation project(':fragments-androidx')
+    compileOnly dep.androidxAppCompat
+    compileOnly dep.androidxAnnotations
 }
 
 apply from: '../bintray.gradle'
