@@ -37,6 +37,7 @@ public class PresenterLifecycleHelper<P extends Presenter> {
         if (presenter == null && bundle != null) {
             String presenterId = bundle.getString(KEY_PRESENTER_ID);
             if (presenterId != null) {
+                //noinspection unchecked
                 presenter = presenterStorage.getPresenter(presenterId);
                 if (presenter != null) {
                     presenter.addOnDestroyListener(presenterDestroyListener);
@@ -47,7 +48,7 @@ public class PresenterLifecycleHelper<P extends Presenter> {
             presenter = presenterFactory.createPresenter();
             presenterStorage.add(presenter);
             presenter.addOnDestroyListener(presenterDestroyListener);
-            presenter.create(bundle == null ? null : bundle.getBundle(KEY_PRESENTER_STATE));
+            presenter.create(bundle);
         }
         bundle = null;
         return presenter;
