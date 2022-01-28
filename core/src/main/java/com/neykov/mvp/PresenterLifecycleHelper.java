@@ -121,8 +121,11 @@ public class PresenterLifecycleHelper<P extends Presenter> {
     }
 
     public void destroy(boolean destroyPresenter) {
-        if (presenter != null && destroyPresenter) {
-            destroyPresenter();
+        if (presenter != null) {
+            presenter.removeOnDestroyListener(presenterDestroyListener);
+            if (destroyPresenter) {
+                destroyPresenter();
+            }
         }
     }
 
