@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: "maven-publish"
 
 ext {
     bintrayPackage = 'rx'
@@ -7,7 +8,6 @@ ext {
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
@@ -20,6 +20,8 @@ android {
         sourceCompatibility rootProject.ext.sourceCompatibilityVersion
         targetCompatibility rootProject.ext.targetCompatibilityVersion
     }
+
+    namespace = "com.neykov.mvp.rxx"
 }
 
 dependencies {
@@ -27,6 +29,3 @@ dependencies {
     compileOnly dep.androidxAnnotations
     compileOnly dep.rxJava
 }
-
-apply from: '../bintray.gradle'
-apply from: '../maven-pom.gradle'

@@ -1,0 +1,110 @@
+applyForPlugin('maven-publish', {
+
+    def pomXml = {
+        resolveStrategy = Closure.DELEGATE_FIRST
+        name rootProject.ext.libraryName
+        description rootProject.ext.description
+        url rootProject.ext.siteUrl
+        scm {
+            connection rootProject.ext.vcsUrl
+            developerConnection rootProject.ext.vcsUrl
+            url rootProject.ext.siteUrl
+        }
+        licenses {
+            license {
+                name rootProject.ext.licenseName
+                url rootProject.ext.licenseUrl
+                distribution 'repo'
+            }
+        }
+        developers {
+            developer {
+                id rootProject.ext.developerId
+                name rootProject.ext.developerName
+                email rootProject.ext.developerEmail
+            }
+        }
+    }
+
+    applyForPlugin("java-library") {
+        java {
+            withJavadocJar()
+            withSourcesJar()
+        }
+    }
+
+    applyForPlugin("com.android.library") {
+        android {
+            publishing {
+                singleVariant("release") {
+                    withSourcesJar()
+                    withJavadocJar()
+                }
+            }
+        }
+    }
+
+    afterEvaluate {
+        applyForPlugin("com.android.library") {
+            publishing {
+                publications {
+                    if (components.getNames().contains("release")) {
+                        release(MavenPublication) {
+                            from components.release
+                            groupId rootProject.group
+                            artifactId project.parent == rootProject ? project.name : "${project.parent.name}-${project.name}"
+                            version project.version
+
+                            pom.withXml {
+                                asNode().children().last() + pomXml
+                            }
+                        }
+                    }
+                    def debugComponent = components.findByName("debug")
+                    if (debugComponent != null && debugComponent instanceof AdhocComponentWithVariants) {
+                        debug(MavenPublication) {
+                            from debugComponent
+                            groupId rootProject.group
+                            setArtifactId("${(project.parent == rootProject ? project.name : "${project.parent.name}-${project.name}")}-debug")
+                            version project.version
+
+                            pom.withXml {
+                                asNode().children().last() + pomXml
+                            }
+                        }
+                    }
+                    def qaComponent = components.findByName("qa")
+                    if (qaComponent != null && qaComponent instanceof AdhocComponentWithVariants) {
+                        qa(MavenPublication) {
+                            from qaComponent
+                            groupId rootProject.group
+                            setArtifactId("${(project.parent == rootProject ? project.name : "${project.parent.name}-${project.name}")}-qa")
+                            version project.version
+
+                            pom.withXml {
+                                asNode().children().last() + pomXml
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        applyForPlugin("java-library") {
+            publishing {
+                publications {
+                    library(MavenPublication) {
+                        groupId rootProject.group
+                        artifactId project.parent == rootProject ? project.name : "${project.parent.name}-${project.name}"
+                        version project.version
+                        from components.java
+
+                        pom.withXml {
+                            asNode().children().last() + pomXml
+                        }
+                    }
+                }
+            }
+        }
+    }
+})

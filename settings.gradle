@@ -1,1 +1,12 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        maven { url "https://maven.google.com" }
+        mavenCentral()
+    }
+}
+
 include ':core', ':rx', ':sample', ':fragments', ':fragments-androidx', ':activities', ':activities-androidx'
+
+

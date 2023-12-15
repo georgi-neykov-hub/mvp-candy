@@ -2,7 +2,6 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
         applicationId "com.neykov.mvp.sample"
@@ -20,6 +19,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    namespace = "com.neykov.mvp.sample"
 }
 
 repositories {
@@ -28,12 +29,12 @@ repositories {
 }
 
 dependencies {
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
-    implementation 'androidx.appcompat:appcompat:1.0.0'
-    implementation 'androidx.annotation:annotation:1.0.0'
-    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.annotation:annotation:1.7.1'
+    testImplementation 'junit:junit:4.13.2'
 
-    implementation 'com.neykov.mvp-candy:core:4.0.0'
-    implementation 'com.neykov.mvp-candy:rx:4.0.0'
-    implementation 'com.neykov.mvp-candy:fragments-androidx:4.0.0'
+    implementation project(':core')
+    implementation project(':rx')
+    implementation project(':fragments-androidx')
 }

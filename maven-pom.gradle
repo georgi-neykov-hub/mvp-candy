@@ -35,7 +35,6 @@ install {
                     connection rootProject.ext.vcsUrl
                     developerConnection rootProject.ext.vcsUrl
                     url rootProject.ext.siteUrl
-
                 }
             }
         }

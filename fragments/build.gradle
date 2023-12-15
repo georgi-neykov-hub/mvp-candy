@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: "maven-publish"
 
 ext {
     bintrayPackage = 'fragments'
@@ -7,7 +8,6 @@ ext {
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
@@ -22,6 +22,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    namespace = "com.neykov.mvp.fragments"
 }
 
 dependencies {
@@ -29,5 +31,3 @@ dependencies {
     compileOnly dep.androidxAnnotations
 }
 
-apply from: '../bintray.gradle'
-apply from: '../maven-pom.gradle'

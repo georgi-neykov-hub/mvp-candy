@@ -1,18 +1,17 @@
 ext {
-    compileSdkVersion = 28
-    buildToolsVersion = '28.0.3'
-    minSdkVersion = 14
-    minSupportSdkVersion = 14
+    compileSdkVersion = 34
+    minSdkVersion = 21
+    minSupportSdkVersion = 21
 
-    targetSdkVersion = 28
-    sourceCompatibilityVersion = JavaVersion.VERSION_1_7
-    targetCompatibilityVersion = JavaVersion.VERSION_1_7
+    targetSdkVersion = 34
+    sourceCompatibilityVersion = JavaVersion.VERSION_11
+    targetCompatibilityVersion = JavaVersion.VERSION_11
 
     dep = [
-            androidPlugin : "com.android.tools.build:gradle:3.2.0",
-            androidxFragments : "androidx.fragment:fragment:1.0.0",
-            androidxAnnotations : "androidx.annotation:annotation:1.0.0",
-            androidxAppCompat : "androidx.appcompat:appcompat:1.0.0",
+            androidPlugin : "com.android.tools.build:gradle:8.2.0",
+            androidxFragments : "androidx.fragment:fragment:1.6.2",
+            androidxAnnotations : "androidx.annotation:annotation:1.7.1",
+            androidxAppCompat : "androidx.appcompat:appcompat:1.6.1",
             rxJava : "io.reactivex:rxjava:1.3.8"
     ]
 

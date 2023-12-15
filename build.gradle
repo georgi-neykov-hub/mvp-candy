@@ -5,30 +5,24 @@ buildscript {
     apply from: rootProject.file('dependencies.gradle')
 
     repositories {
-        jcenter()
         mavenCentral()
-        maven { url "https://maven.google.com" }
         google()
+        maven { url "https://maven.google.com" }
+        maven { url "https://plugins.gradle.org/m2" }
+        gradlePluginPortal()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.0'
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
-
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+        classpath 'com.android.tools.build:gradle:8.2.0'
     }
 }
+
+group = ext.groupId
+version = ext.versionName
 
 allprojects {
     repositories {
-        jcenter()
+        mavenCentral()
+        google()
         maven { url "https://maven.google.com" }
     }
 }
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
-}
-
-apply from: rootProject.file('dependencies.gradle')

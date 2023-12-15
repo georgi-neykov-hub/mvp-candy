@@ -1,5 +1,5 @@
 apply plugin: 'com.android.library'
-
+apply plugin: "maven-publish"
 
 ext {
     bintrayPackage = 'activities-androidx'
@@ -8,7 +8,6 @@ ext {
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
         minSdkVersion rootProject.ext.minSupportSdkVersion
@@ -23,6 +22,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    namespace = "com.neykov.mvp.activities.androidx"
 }
 
 dependencies {
@@ -31,6 +32,3 @@ dependencies {
     compileOnly dep.androidxAppCompat
     compileOnly dep.androidxAnnotations
 }
-
-apply from: '../bintray.gradle'
-apply from: '../maven-pom.gradle'
