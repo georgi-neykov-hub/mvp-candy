@@ -1,7 +1,11 @@
 package com.neykov.mvp.support;
 
 import android.os.Bundle;
+
 import androidx.annotation.CallSuper;
+import androidx.annotation.ContentView;
+import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
@@ -13,6 +17,15 @@ import com.neykov.mvp.ViewWithPresenter;
 @SuppressWarnings("unused")
 public abstract class ViewFragment<P extends Presenter> extends Fragment
         implements ViewWithPresenter<P>, PresenterFactory<P> {
+
+    public ViewFragment() {
+        super();
+    }
+
+    @ContentView
+    public ViewFragment(@LayoutRes int contentLayoutId) {
+        super(contentLayoutId);
+    }
 
     private PresenterLifecycleHelper<P> presenterDelegate;
 
@@ -28,14 +41,14 @@ public abstract class ViewFragment<P extends Presenter> extends Fragment
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         presenterDelegate = new PresenterLifecycleHelper<>(this,
-                FragmentPresenterStorage.from(getActivity().getSupportFragmentManager()));
+                FragmentPresenterStorage.from(requireActivity().getSupportFragmentManager()));
         presenterDelegate.restoreState(savedInstanceState);
         presenterDelegate.markSaveStateChanged(false);
     }
 
     @CallSuper
     @Override
-    public void onSaveInstanceState(Bundle bundle) {
+    public void onSaveInstanceState(@NonNull Bundle bundle) {
         presenterDelegate.markSaveStateChanged(true);
         super.onSaveInstanceState(bundle);
         presenterDelegate.saveState(bundle);
@@ -75,6 +88,6 @@ public abstract class ViewFragment<P extends Presenter> extends Fragment
     }
 
     protected boolean presenterShouldBeDestroyed() {
-        return getActivity().isFinishing();
+        return requireActivity().isFinishing();
     }
 }

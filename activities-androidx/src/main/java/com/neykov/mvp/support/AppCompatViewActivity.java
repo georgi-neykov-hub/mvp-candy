@@ -8,12 +8,22 @@ import com.neykov.mvp.PresenterLifecycleHelper;
 import com.neykov.mvp.ViewWithPresenter;
 
 import androidx.annotation.CallSuper;
+import androidx.annotation.ContentView;
+import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 public abstract class AppCompatViewActivity<P extends Presenter> extends AppCompatActivity implements ViewWithPresenter<P>, PresenterFactory<P> {
 
     private PresenterLifecycleHelper<P> presenterDelegate;
+
+    public AppCompatViewActivity() {super();}
+
+    @ContentView
+    public AppCompatViewActivity(@LayoutRes int contentLayoutId) {
+        super(contentLayoutId);
+    }
 
     public void setUnbindOnStateSaved(boolean unbind) {
         if (presenterDelegate == null) {
@@ -33,7 +43,7 @@ public abstract class AppCompatViewActivity<P extends Presenter> extends AppComp
 
     @CallSuper
     @Override
-    public void onSaveInstanceState(Bundle bundle) {
+    public void onSaveInstanceState(@NonNull Bundle bundle) {
         presenterDelegate.markSaveStateChanged(true);
         super.onSaveInstanceState(bundle);
         presenterDelegate.saveState(bundle);

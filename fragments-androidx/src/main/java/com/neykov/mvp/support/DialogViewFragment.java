@@ -1,7 +1,11 @@
 package com.neykov.mvp.support;
 
 import android.os.Bundle;
+
 import androidx.annotation.CallSuper;
+import androidx.annotation.ContentView;
+import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
@@ -23,19 +27,26 @@ public abstract class DialogViewFragment<P extends Presenter> extends DialogFrag
         presenterDelegate.setUnbindOnStateSaved(unbind);
     }
 
+    public DialogViewFragment() {super();}
+
+    @ContentView
+    public DialogViewFragment(@LayoutRes int contentLayoutId) {
+        super(contentLayoutId);
+    }
+
     @CallSuper
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         presenterDelegate = new PresenterLifecycleHelper<>(this,
-                FragmentPresenterStorage.from(getActivity().getSupportFragmentManager()));
+                FragmentPresenterStorage.from(requireActivity().getSupportFragmentManager()));
         presenterDelegate.restoreState(savedInstanceState);
         presenterDelegate.markSaveStateChanged(false);
     }
 
     @CallSuper
     @Override
-    public void onSaveInstanceState(Bundle bundle) {
+    public void onSaveInstanceState(@NonNull Bundle bundle) {
         presenterDelegate.markSaveStateChanged(true);
         super.onSaveInstanceState(bundle);
         presenterDelegate.saveState(bundle);
@@ -75,6 +86,6 @@ public abstract class DialogViewFragment<P extends Presenter> extends DialogFrag
     }
 
     protected boolean presenterShouldBeDestroyed() {
-        return getActivity().isFinishing();
+        return requireActivity().isFinishing();
     }
 }
